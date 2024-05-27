@@ -2,14 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-const LoginPageContainer = styled.div`
+const SignUpPageContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px;
 `;
 
-const LoginForm = styled.form`
+const SignUpForm = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -19,17 +19,21 @@ const LoginForm = styled.form`
   padding: 20px;
 `;
 
+const InputLabel = styled.label`
+  width: 90%;
+  margin-bottom: 30px;
+`;
+
 const InputField = styled.input`
-  width: calc(100% - 20px);
-  margin: 10px 0;
+  width: 92%;
+  margin: 0;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  text-align: left;
 `;
 
 const SubmitButton = styled.button`
-  width: 20%;
+  width: 30%;
   margin: 10px 0;
   padding: 10px;
   background-color: #4caf50;
@@ -42,25 +46,29 @@ const SubmitButton = styled.button`
   }
 `;
 
-const LoginPage = () => {
+const SignUpPage = () => {
   return (
-    <LoginPageContainer>
-      <h1>Log in</h1>
-      <p>to continue using WordSmith </p>
-      <LoginForm>
-        <label>
+    <SignUpPageContainer>
+      <h1>Register an account</h1>
+      <p>to continue using WordSmith</p>
+      <SignUpForm>
+        <InputLabel>
           Username:
           <InputField type="text" name="username" />
-        </label>
-        <label>
+        </InputLabel>
+        <InputLabel>
+          Email:
+          <InputField type="email" name="email" />
+        </InputLabel>
+        <InputLabel>
           Password:
           <InputField type="password" name="password" />
-        </label>
-        <SubmitButton type="submit">Login</SubmitButton>
-      </LoginForm>
-      <p>Don't have an account yet? <Link to="/signup">Sign up here</Link>.</p>
-    </LoginPageContainer>
+        </InputLabel>
+        <SubmitButton type="submit">Sign Up</SubmitButton>
+      </SignUpForm>
+      <p>Already have an account? <Link to="/login">Log in here</Link>.</p>
+    </SignUpPageContainer>
   );
 };
 
-export default LoginPage;
+export default SignUpPage;
