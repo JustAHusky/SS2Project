@@ -41,46 +41,65 @@ const MainContent = styled.div`
 
 const InputOutputContainer = styled.div`
   display: flex;
+  flex-direction: column;
+  gap: 20px;
   margin-bottom: 20px;
 `;
 
 const InputTextArea = styled.textarea`
   width: 100%;
-  height: 400px;
+  height: 200px;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
   resize: none;
 `;
 
-const OutputTextArea = styled.textarea`
-  width: 100%;
-  height: 400px;
+const ParaphraseList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
+const ParaphraseItem = styled.div`
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  resize: none;
+  background-color: #fff;
+  cursor: pointer;
+  &:hover {
+    background-color: #f0f0f0;
+  }
 `;
 
 const ProcessButton = styled.button`
-  padding: 10px 20px;
+  width: 100px; /* Fixed width */
+  padding: 10px 10px; /* Reduced padding */
+  font-size: 14px; /* Smaller font size */
   background-color: #007bff;
   color: #fff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  text-align: center;
 `;
 
 const Paraphraser = () => {
   const [inputText, setInputText] = React.useState('');
-  const [outputText, setOutputText] = React.useState('');
+  const [paraphrasedTexts, setParaphrasedTexts] = React.useState([]);
 
   const handleInputChange = (e) => {
     setInputText(e.target.value);
   };
 
   const handleProcess = () => {
-    setOutputText(inputText.toUpperCase());
+    // Mock paraphrasing logic - in a real app, you would call a paraphrasing API here
+    const paraphrases = [
+      `Paraphrased version 1 of: ${inputText}`,
+      `Paraphrased version 2 of: ${inputText}`,
+      `Paraphrased version 3 of: ${inputText}`,
+    ];
+    setParaphrasedTexts(paraphrases);
   };
 
   return (
@@ -99,7 +118,7 @@ const Paraphraser = () => {
           <SidebarLink to="/paraphraser">Paraphraser</SidebarLink>
         </SidebarLinkContainer>
         <SidebarLinkContainer>
-          <SidebarLink to="/activity-history">Activity History</SidebarLink>
+          <SidebarLink to="/dashboard">Dashboard</SidebarLink>
         </SidebarLinkContainer>
       </Sidebar>
       <MainContent>
@@ -110,9 +129,13 @@ const Paraphraser = () => {
             onChange={handleInputChange}
             placeholder="Enter text to paraphrase..."
           />
-          <OutputTextArea value={outputText} readOnly />
+          <ProcessButton onClick={handleProcess}>Process</ProcessButton>
+          <ParaphraseList>
+            {paraphrasedTexts.map((text, index) => (
+              <ParaphraseItem key={index}>{text}</ParaphraseItem>
+            ))}
+          </ParaphraseList>
         </InputOutputContainer>
-        <ProcessButton onClick={handleProcess}>Process</ProcessButton>
       </MainContent>
     </FeaturePageContainer>
   );

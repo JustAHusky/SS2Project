@@ -41,12 +41,13 @@ const MainContent = styled.div`
 
 const InputOutputContainer = styled.div`
   display: flex;
-  margin-bottom: 20px;
+  flex-direction: column; /* Change to column layout */
+  gap: 20px; /* Add gap between elements */
 `;
 
 const InputTextArea = styled.textarea`
   width: 100%;
-  height: 400px;
+  height: 200px; /* Reduce height */
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -55,7 +56,7 @@ const InputTextArea = styled.textarea`
 
 const OutputTextArea = styled.textarea`
   width: 100%;
-  height: 400px;
+  height: 200px; /* Reduce height */
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -63,12 +64,15 @@ const OutputTextArea = styled.textarea`
 `;
 
 const ProcessButton = styled.button`
-  padding: 10px 20px;
+  width: 100px; /* Fixed width */
+  padding: 10px 10px; /* Reduced padding */
+  font-size: 14px; /* Smaller font size */
   background-color: #007bff;
   color: #fff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  text-align: center;
 `;
 
 const PlagiarismChecker = () => {
@@ -79,8 +83,24 @@ const PlagiarismChecker = () => {
     setInputText(e.target.value);
   };
 
+  // Placeholder function to call the plagiarism check API
+  const callPlagiarismCheckAPI = () => {
+    // Call your plagiarism check API here with inputText
+    // Example:
+    // axios.post('plagiarism-check-api-endpoint', { text: inputText })
+    //   .then(response => {
+    //     // Handle the response from the API
+    //     setOutputText(response.data.result);
+    //   })
+    //   .catch(error => {
+    //     // Handle errors
+    //     console.error('Error:', error);
+    //   });
+  };
+
   const handleProcess = () => {
-    setOutputText(inputText.toUpperCase());
+    // Placeholder logic for calling plagiarism check API
+    callPlagiarismCheckAPI();
   };
 
   return (
@@ -99,7 +119,7 @@ const PlagiarismChecker = () => {
           <SidebarLink to="/paraphraser">Paraphraser</SidebarLink>
         </SidebarLinkContainer>
         <SidebarLinkContainer>
-          <SidebarLink to="/activity-history">Activity History</SidebarLink>
+          <SidebarLink to="/dashboard">Dashboard</SidebarLink>
         </SidebarLinkContainer>
       </Sidebar>
       <MainContent>
@@ -110,9 +130,9 @@ const PlagiarismChecker = () => {
             onChange={handleInputChange}
             placeholder="Enter text to check for plagiarism..."
           />
+          <ProcessButton onClick={handleProcess}>Process</ProcessButton>
           <OutputTextArea value={outputText} readOnly />
         </InputOutputContainer>
-        <ProcessButton onClick={handleProcess}>Process</ProcessButton>
       </MainContent>
     </FeaturePageContainer>
   );

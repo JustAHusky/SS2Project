@@ -9,6 +9,10 @@ const CardContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  transition: background-color 0.3s; /* Smooth transition for background color change */
+  &:hover {
+    background-color: #e0f7fa; /* Light green background color on hover */
+  }
 `;
 
 const CardTitle = styled.h2`

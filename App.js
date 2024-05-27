@@ -9,7 +9,7 @@ import GrammarChecker from './pages/GrammarChecker';
 import PlagiarismChecker from './pages/PlagiarismChecker';
 import TextCompletion from './pages/TextCompletion';
 import Paraphraser from './pages/Paraphraser';
-
+import DashBoard from './pages/Dashboard';
 function App() {
   return (
     <Router>
@@ -23,6 +23,7 @@ function App() {
         <Route path="/plagiarism-checker" element={<PlagiarismChecker />} />
         <Route path="/text-completion" element={<TextCompletion />} />
         <Route path="/paraphraser" element={<Paraphraser />} />
+        <Route path="/dashboard" element={<DashBoard/>} />
       </Routes>
     </Router>
   );
