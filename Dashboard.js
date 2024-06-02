@@ -8,9 +8,10 @@ const FeaturePageContainer = styled.div`
 `;
 
 const Sidebar = styled.div`
-  width: 200px;
+  width: 160px;
   background-color: #f0f0f0;
   padding: 20px;
+  border-right: 1px solid #000000;
 `;
 
 const SidebarLinkContainer = styled.div`
@@ -24,12 +25,23 @@ const SidebarLink = styled(Link)`
   padding: 10px;
   border-radius: 5px;
   background-color: #fff;
-  border: 1px solid #ccc;
+  border: 1px solid #000000;
   cursor: pointer;
   transition: background-color 0.3s;
   &:hover {
     background-color: #e0f7fa;
   }
+`;
+
+const SidebarLinkActive = styled(Link)`
+  display: block;
+  color: #333;
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #000000;
+  background-color: #e8f4d9;
+  cursor: pointer;
 `;
 
 const MainContent = styled.div`
@@ -50,7 +62,7 @@ const ActivityContainer = styled.div`
 
 const ActivityItem = styled.div`
   padding: 20px;
-  border: 1px solid #ccc;
+  border: 1px solid #000000;
   border-radius: 5px;
   background-color: #fff;
 `;
@@ -92,7 +104,7 @@ const Dashboard = () => {
           <SidebarLink to="/paraphraser">Paraphraser</SidebarLink>
         </SidebarLinkContainer>
         <SidebarLinkContainer>
-          <SidebarLink to="/dashboard">Dashboard</SidebarLink>
+          <SidebarLinkActive to="/dashboard">Dashboard</SidebarLinkActive>
         </SidebarLinkContainer>
       </Sidebar>
       <MainContent>

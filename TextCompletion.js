@@ -8,9 +8,10 @@ const FeaturePageContainer = styled.div`
 `;
 
 const Sidebar = styled.div`
-  width: 200px;
+  width: 160px;
   background-color: #f0f0f0;
   padding: 20px;
+  border-right: 1px solid #000000;
 `;
 
 const SidebarLinkContainer = styled.div`
@@ -24,19 +25,30 @@ const SidebarLink = styled(Link)`
   padding: 10px;
   border-radius: 5px;
   background-color: #fff;
-  border: 1px solid #ccc;
+  border: 1px solid #000000;
   cursor: pointer;
-  transition: background-color 0.3s; /* Smooth transition for background color change */
+  transition: background-color 0.3s;
   &:hover {
-    background-color: #e0f7fa; /* Light green background color on hover */
+    background-color: #e0f7fa;
   }
+`;
+
+const SidebarLinkActive = styled(Link)`
+  display: block;
+  color: #333;
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #000000;
+  background-color: #e8f4d9;
+  cursor: pointer;
 `;
 
 const MainContent = styled.div`
   flex: 1;
   padding: 20px;
-  max-height: calc(100vh - 40px); /* 40px is the combined padding of 20px top and bottom */
-  overflow-y: auto; /* Enable vertical scrolling if content exceeds the height */
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
 `;
 
 const InputOutputContainer = styled.div`
@@ -47,7 +59,7 @@ const InputOutputContainer = styled.div`
 `;
 
 const InputTextArea = styled.textarea`
-  width: 100%;
+  width: 90%;
   height: 200px;
   padding: 10px;
   border: 1px solid #ccc;
@@ -56,7 +68,7 @@ const InputTextArea = styled.textarea`
 `;
 
 const OutputTextArea = styled.textarea`
-  width: 100%;
+  width: 90%;
   height: 200px;
   padding: 10px;
   border: 1px solid #ccc;
@@ -65,12 +77,12 @@ const OutputTextArea = styled.textarea`
 `;
 
 const ProcessButton = styled.button`
-  width: 100px; /* Fixed width */
-  padding: 10px 10px; /* Reduced padding */
-  font-size: 14px; /* Smaller font size */
+  width: 100px;
+  padding: 10px 10px;
+  font-size: 14px;
   background-color: #007bff;
   color: #fff;
-  border: none;
+  border: 1px solid #000000;
   border-radius: 5px;
   cursor: pointer;
   text-align: center;
@@ -100,7 +112,7 @@ const TextCompletion = () => {
           <SidebarLink to="/plagiarism-checker">Plagiarism Checker</SidebarLink>
         </SidebarLinkContainer>
         <SidebarLinkContainer>
-          <SidebarLink to="/text-completion">Text Completion</SidebarLink>
+          <SidebarLinkActive to="/text-completion">Text Completion</SidebarLinkActive>
         </SidebarLinkContainer>
         <SidebarLinkContainer>
           <SidebarLink to="/paraphraser">Paraphraser</SidebarLink>

@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import FeatureList from '../components/FeatureList';
-import BenefitsList from '../components/BenefitsList';// Import Link from react-router-dom
+import BenefitsList from '../components/BenefitsList';
+
 
 const AppContainer = styled.div`
   font-family: Arial, sans-serif;
@@ -11,10 +12,21 @@ const AppContainer = styled.div`
   padding: 20px;
 `;
 
+const Title = styled.h1`
+  margin-bottom: 10px;
+`;
+
+const ColouredTitle = styled.h2`
+  color: #0AD776;
+  font-size: 30px;
+  margin-top: 0;
+`;
+
 function HomePage() {
   return (
     <AppContainer>
-      <h1>The ultimate writing aid: Improve your writing skills today!</h1>
+      <Title>The ultimate writing aid:</Title>
+      <ColouredTitle>Improve your writing skills today!</ColouredTitle>
       <FeatureList />
       <BenefitsList />
     </AppContainer>

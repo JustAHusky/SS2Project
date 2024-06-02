@@ -2,16 +2,16 @@ import React from 'react';
 import styled from 'styled-components';
 
 const CardContainer = styled.div`
-  padding: 20px;
+  padding: 30px;
   background-color: #fff;
-  border: 1px solid #ccc;
+  border: 1px solid #000000;
   border-radius: 5px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: background-color 0.3s; /* Smooth transition for background color change */
+  transition: background-color 0.3s;
   &:hover {
-    background-color: #e0f7fa; /* Light green background color on hover */
+    background-color: #e0f7fa;
   }
 `;
 
@@ -27,7 +27,7 @@ const CardDescription = styled.p`
 
 const Arrow = styled.div`
   align-self: flex-end;
-  color: #888;
+  color: #000000;
 `;
 
 const FeatureCard = ({ feature }) => {

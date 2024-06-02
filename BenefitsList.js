@@ -2,18 +2,23 @@ import React from 'react';
 import styled from 'styled-components';
 
 const ListContainer = styled.ul`
-  margin-top: 20px;
+  margin-top: 50px;
+  margin-bottom: 50px;
   list-style-type: none;
   padding: 0;
-  width: 80%;
+  width: 96%;
+  display: flex;
+  flex-direction: column;
 `;
 
 const ListItem = styled.li`
   display: flex;
   align-items: center;
-  justify-content: center; /* Center-align the content */
+  font-size: 20px;
+  text-align: left;
   margin: 5px 0;
   color: #4caf50;
+  width: 100%;
 `;
 
 const CheckIcon = styled.span`
