@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { useState } from "react";
+import axios from 'axios';
 
 const FeaturePageContainer = styled.div`
   display: flex;
@@ -55,24 +57,28 @@ const InputOutputContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
+  margin-bottom: 20px;
+  width: 90%;
 `;
 
 const InputTextArea = styled.textarea`
   width: 90%;
-  height: 200px;
+  height: 300px;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
   resize: none;
+  font-size: 16px;
 `;
 
 const OutputTextArea = styled.textarea`
   width: 90%;
-  height: 200px;
+  height: 300px;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
   resize: none;
+  font-size: 16px;
 `;
 
 const ProcessButton = styled.button`
@@ -87,33 +93,23 @@ const ProcessButton = styled.button`
   text-align: center;
 `;
 
-const PlagiarismChecker = () => {
-  const [inputText, setInputText] = React.useState('');
-  const [outputText, setOutputText] = React.useState('');
+function PlagiarismChecker(){
+  const [question, setQuestion] = useState("");
+  const [answer, setAnswer] = useState("");
 
-  const handleInputChange = (e) => {
-    setInputText(e.target.value);
-  };
-
-  // Placeholder function to call the plagiarism check API
-  const callPlagiarismCheckAPI = () => {
-    // Call your plagiarism check API here with inputText
-    // Example:
-    // axios.post('plagiarism-check-api-endpoint', { text: inputText })
-    //   .then(response => {
-    //     // Handle the response from the API
-    //     setOutputText(response.data.result);
-    //   })
-    //   .catch(error => {
-    //     // Handle errors
-    //     console.error('Error:', error);
-    //   });
-  };
-
-  const handleProcess = () => {
-    // Placeholder logic for calling plagiarism check API
-    callPlagiarismCheckAPI();
-  };
+  async function generateAnswer() {
+    console.log("loading...");
+    const response = await axios({
+      url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyAECJjA7roZz7xaDpLTgpqMxow0WI4jaGc",
+      method: "POST",
+      data: {
+        contents: [
+          { parts: [{ text: "Check the input text for plagiarism. The app will analyze the input text and compare it with other documents on the internet then provide a percentage of how much of the text matches other documents, as well as links to those documents: " + question }] }
+        ],
+      },
+    });
+    setAnswer(response['data']['candidates'][0]['content']['parts'][0]["text"]);
+  }
 
   return (
     <FeaturePageContainer>
@@ -138,12 +134,12 @@ const PlagiarismChecker = () => {
         <h1>Plagiarism Checker</h1>
         <InputOutputContainer>
           <InputTextArea
-            value={inputText}
-            onChange={handleInputChange}
-            placeholder="Enter text to check for plagiarism..."
+            value = {question}
+            onChange = {(e)=> setQuestion(e.target.value)}
+            placeholder="Enter your text to check for plagiarism..."
           />
-          <ProcessButton onClick={handleProcess}>Process</ProcessButton>
-          <OutputTextArea value={outputText} readOnly />
+          <ProcessButton onClick={generateAnswer}>Process</ProcessButton>
+          <OutputTextArea value={answer} readOnly />
         </InputOutputContainer>
       </MainContent>
     </FeaturePageContainer>

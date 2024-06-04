@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { useState } from "react";
+import axios from 'axios';
 
 const FeaturePageContainer = styled.div`
   display: flex;
@@ -60,29 +62,23 @@ const InputOutputContainer = styled.div`
 `;
 
 const InputTextArea = styled.textarea`
-  width: 100%;
-  height: 200px;
+  width: 90%;
+  height: 300px;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
   resize: none;
+  font-size: 16px;
 `;
 
-const ParaphraseList = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-`;
-
-const ParaphraseItem = styled.div`
+const OutputTextArea = styled.textarea`
+  width: 90%;
+  height: 300px;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  background-color: #fff;
-  cursor: pointer;
-  &:hover {
-    background-color: #f0f0f0;
-  }
+  resize: none;
+  font-size: 16px;
 `;
 
 const ProcessButton = styled.button`
@@ -97,23 +93,23 @@ const ProcessButton = styled.button`
   text-align: center;
 `;
 
-const Paraphraser = () => {
-  const [inputText, setInputText] = React.useState('');
-  const [paraphrasedTexts, setParaphrasedTexts] = React.useState([]);
+function Paraphraser(){
+  const [question, setQuestion] = useState("");
+  const [answer, setAnswer] = useState("");
 
-  const handleInputChange = (e) => {
-    setInputText(e.target.value);
-  };
-
-  const handleProcess = () => {
-    // Mock paraphrasing logic - in a real app, you would call a paraphrasing API here
-    const paraphrases = [
-      `Paraphrased version 1 of: ${inputText}`,
-      `Paraphrased version 2 of: ${inputText}`,
-      `Paraphrased version 3 of: ${inputText}`,
-    ];
-    setParaphrasedTexts(paraphrases);
-  };
+  async function generateAnswer() {
+    console.log("loading...");
+    const response = await axios({
+      url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyAECJjA7roZz7xaDpLTgpqMxow0WI4jaGc",
+      method: "POST",
+      data: {
+        contents: [
+          { parts: [{ text: "Rephrase the input text and provide several paraphrased versions of the text, allowing the user to choose the one that best fits their needs.: " + question }] }
+        ],
+      },
+    });
+    setAnswer(response['data']['candidates'][0]['content']['parts'][0]["text"]);
+  }
 
   return (
     <FeaturePageContainer>
@@ -137,17 +133,13 @@ const Paraphraser = () => {
       <MainContent>
         <h1>Paraphraser</h1>
         <InputOutputContainer>
-          <InputTextArea
-            value={inputText}
-            onChange={handleInputChange}
-            placeholder="Enter text to paraphrase..."
+        <InputTextArea
+            value = {question}
+            onChange = {(e)=> setQuestion(e.target.value)}
+            placeholder="Enter your text to paraphrase..."
           />
-          <ProcessButton onClick={handleProcess}>Process</ProcessButton>
-          <ParaphraseList>
-            {paraphrasedTexts.map((text, index) => (
-              <ParaphraseItem key={index}>{text}</ParaphraseItem>
-            ))}
-          </ParaphraseList>
+          <ProcessButton onClick={generateAnswer}>Process</ProcessButton>
+          <OutputTextArea value={answer} readOnly />
         </InputOutputContainer>
       </MainContent>
     </FeaturePageContainer>
