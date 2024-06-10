@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, } from 'react';
 import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 import HomePage from './pages/HomePage';
 import NotFoundPage from './pages/NotFoundPage';
 import Header from './components/Header';
-import Footer from './components/Footer';
 import GrammarChecker from './pages/GrammarChecker';
 import PlagiarismChecker from './pages/PlagiarismChecker';
 import TextCompletion from './pages/TextCompletion';
@@ -13,59 +12,50 @@ import Paraphraser from './pages/Paraphraser';
 import Dashboard from './pages/Dashboard';
 import './App.css';
 
-function App() {
-  const [user, setUser] = useState(null);
+function App({ user, updateUser }) {
   const navigate = useNavigate();
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
-      setUser(JSON.parse(storedUser));
+      updateUser(JSON.parse(storedUser));
     }
-  }, []);
+  }, [updateUser]);
 
-  function updateUser(newUser) {
-    setUser(newUser);
-    console.log(newUser);
-    localStorage.setItem('user', JSON.stringify(newUser));
-  }
-
-  function handleCallbackResponse(response) {
+  const handleCallbackResponse = async (response) => {
     if (response) {
       console.log("Logged in successfully!");
       console.log("Encoded JWT ID token: " + response.credential);
       const decodedToken = jwtDecode(response.credential);
       console.log(decodedToken);
-  
+
       const { name, email } = decodedToken;
       console.log("User name:", name);
       console.log("User email:", email);
-  
+
       const userObject = { name, email };
       updateUser(userObject);
-      
-      saveUserToDatabase(userObject);
-  
+
+      await saveUserToDatabase(userObject);
+
       navigate("/homepage");
     }
-  }
-  
-   async function handleSignout() {
-    // await axios.delete('http://localhost:3080/api/delete', {body: localStorage.getItem('user').name}, {method: 'DELETE'});
-    localStorage.removeItem('user'); 
-    setUser(''); 
-    navigate("/");
-  }
-  
+  };
 
-  async function saveUserToDatabase(userObject) {
+  const handleSignout = async () => {
+    localStorage.removeItem('user');
+    updateUser(null);
+    navigate("/");
+  };
+
+  const saveUserToDatabase = async (userObject) => {
     try {
       await axios.post('http://localhost:3080/api/user', userObject);
       console.log('User information saved to the database.');
     } catch (error) {
       console.error('Error saving user information to the database:', error);
     }
-  }  
+  };
 
   useEffect(() => {
     /* global google */
@@ -82,7 +72,6 @@ function App() {
     }
 
     google.accounts.id.prompt();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   return (
@@ -91,7 +80,6 @@ function App() {
         <>
           <h1>Log in</h1>
           <p>to continue using WorthSmith</p>
-          {user}
           <div id="signInDiv" className="google-signin"></div>
         </>
       ) : (
@@ -108,18 +96,27 @@ function App() {
 function AppWrapper() {
   const [user, setUser] = useState(null);
 
+  const updateUser = (newUser) => {
+    setUser(newUser);
+    if (newUser) {
+      localStorage.setItem('user', JSON.stringify(newUser));
+    } else {
+      localStorage.removeItem('user');
+    }
+  };
+
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
   }, []);
-  
+
   return (
     <Router>
       <Header />
       <Routes>
-        <Route path="/" element={<App />} />
+        <Route path="/" element={<App user={user} updateUser={updateUser} />} />
         <Route path="/homepage" element={<HomePage />} />
         <Route path="/grammar-checker" element={<GrammarChecker user={user} />} />
         <Route path="/plagiarism-checker" element={<PlagiarismChecker user={user} />} />

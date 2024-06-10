@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import FeatureList from '../components/FeatureList';
 import BenefitsList from '../components/BenefitsList';
+import Footer from '../components/Footer';
 
 
 const AppContainer = styled.div`
@@ -29,6 +30,7 @@ function HomePage() {
       <ColouredTitle>Improve your writing skills today!</ColouredTitle>
       <FeatureList />
       <BenefitsList />
+      <Footer></Footer>
     </AppContainer>
   );
 }

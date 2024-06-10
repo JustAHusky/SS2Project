@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 import Footer from '../components/Footer';
+
 const FeaturePageContainer = styled.div`
   height: 100vh;
 `;
@@ -51,7 +52,6 @@ const MainContent = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  
 `;
 
 const ActivityContainer = styled.div`
@@ -69,8 +69,12 @@ const ActivityItem = styled.div`
   background-color: #fff;
 `;
 
-const ActivityInput = styled.div`
+const ActivityType = styled.div`
   font-weight: bold;
+`;
+
+const ActivityInput = styled.div`
+  margin-top: 10px;
 `;
 
 const ActivityOutput = styled.div`
@@ -85,53 +89,60 @@ const NoActivityMessage = styled.p`
 
 const Dashboard = ({ user }) => {
   const [activities, setActivities] = useState([]);
+
   useEffect(() => {
-    if (user) {
-      axios.get(`http://localhost:3080/api/activity/${user.name}`)
-        .then(response => {
+    const fetchActivities = async () => {
+      if (user) {
+        try {
+          const response = await axios.get(`http://localhost:3080/api/activity/${user.name}`);
           setActivities(response.data);
-        })
-    } else {
-    }
+        } catch (error) {
+          console.error('Error fetching activities:', error);
+        }
+      }
+    };
+
+    fetchActivities();
   }, [user]);
 
   return (
     <FeaturePageContainer>
-      <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'between'}}>
-      <Sidebar>
-        <SidebarLinkContainer>
-          <SidebarLink to="/grammar-checker">Grammar Checker</SidebarLink>
-        </SidebarLinkContainer>
-        <SidebarLinkContainer>
-          <SidebarLink to="/plagiarism-checker">Plagiarism Checker</SidebarLink>
-        </SidebarLinkContainer>
-        <SidebarLinkContainer>
-          <SidebarLink to="/text-completion">Text Completion</SidebarLink>
-        </SidebarLinkContainer>
-        <SidebarLinkContainer>
-          <SidebarLink to="/paraphraser">Paraphraser</SidebarLink>
-        </SidebarLinkContainer>
-        <SidebarLinkContainer>
-          <SidebarLinkActive to="/dashboard">Dashboard</SidebarLinkActive>
-        </SidebarLinkContainer>
-      </Sidebar>
-      <MainContent>
-        <h1>Recent Activities</h1>
-        <ActivityContainer>
-          {activities.length === 0 ? (
-            <NoActivityMessage>No recent activity.</NoActivityMessage>
-          ) : (
-            activities.map((activity, index) => (
-              <ActivityItem key={index}>
-                <ActivityInput>Input: {activity.input_text}</ActivityInput>
-                <ActivityOutput>Output: {activity.output_text}</ActivityOutput>
-              </ActivityItem>
-            ))
-          )}
-        </ActivityContainer>
-      </MainContent>
+      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+        <Sidebar>
+          <SidebarLinkContainer>
+            <SidebarLink to="/grammar-checker">Grammar Checker</SidebarLink>
+          </SidebarLinkContainer>
+          <SidebarLinkContainer>
+            <SidebarLink to="/plagiarism-checker">Plagiarism Checker</SidebarLink>
+          </SidebarLinkContainer>
+          <SidebarLinkContainer>
+            <SidebarLink to="/text-completion">Text Completion</SidebarLink>
+          </SidebarLinkContainer>
+          <SidebarLinkContainer>
+            <SidebarLink to="/paraphraser">Paraphraser</SidebarLink>
+          </SidebarLinkContainer>
+          <SidebarLinkContainer>
+            <SidebarLinkActive to="/dashboard">Dashboard</SidebarLinkActive>
+          </SidebarLinkContainer>
+        </Sidebar>
+        <MainContent>
+          <h1>Recent Activities</h1>
+          <ActivityContainer>
+            {activities.length === 0 ? (
+              <NoActivityMessage>No recent activity.</NoActivityMessage>
+            ) : (
+              activities.map((activity, index) => (
+                <ActivityItem key={index}>
+                  <ActivityType>Type: {activity.activity_type}</ActivityType>
+                  <ActivityInput>Input: {activity.input_text}</ActivityInput>
+                  <ActivityOutput>Output: {activity.output_text}</ActivityOutput>
+                </ActivityItem>
+              ))
+            )}
+          </ActivityContainer>
+        </MainContent>
       </div>
-      <Footer></Footer>
+      <Footer />
     </FeaturePageContainer>
   );
 };
