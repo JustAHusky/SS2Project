@@ -114,7 +114,7 @@ function Paraphraser({ user }) {
         method: "POST",
         data: {
           contents: [
-            { parts: [{ text: "Rephrase the input text and provide several paraphrased versions of the text, allowing the user to choose the one that best fits their needs.: " + question }] }
+            { parts: [{ text: "Rephrase the input text and provide several paraphrased versions of the text, allowing the user to choose the one that best fits their needs: " + question }] }
           ],
         },
       });

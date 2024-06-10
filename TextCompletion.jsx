@@ -112,7 +112,7 @@ function TextCompletion({ user }) {
         method: "POST",
         data: {
           contents: [
-            { parts: [{ text: "Pick up where the user left off and complete the input text with generated sentences and do not use emoji: " + question }] }
+            { parts: [{ text: "Pick up where the user left off and complete the input text with several different generated sentences and do not use emoji: " + question }] }
           ],
         },
       });
