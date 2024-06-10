@@ -97,32 +97,22 @@ function PlagiarismChecker({ user }) {
   const [answer, setAnswer] = useState("");
   const [isUser, setIsUser] = useState(false);
   const accessToken = localStorage.getItem('user');
+
   useEffect(() => {
     if (accessToken) {
       setIsUser(true);
-    }
-    else {
+    } else {
       setIsUser(false);
     }
-  }, [])
+  }, []);
 
   async function generateAnswer() {
     try {
-      const response = await axios({
-        url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyAECJjA7roZz7xaDpLTgpqMxow0WI4jaGc",
-        method: "POST",
-        data: {
-          contents: [
-            { parts: [{ text: "Check the input text for plagiarism. The app will analyze the input text and compare it with other documents on the internet. The app will then provide a percentage of how much of the text matches other documents, as well as links to those documents: " + question }] }
-          ],
-        },
-      });
-      const generatedAnswer = response.data.candidates[0].content.parts[0].text;
-      setAnswer(generatedAnswer);
-
-      saveActivityToDatabase(question, generatedAnswer);
-    } 
-    catch (error) {
+      const response = await axios.post('http://localhost:3080/api/generate-answer', { question });
+      const { answer } = response.data;
+      setAnswer(answer);
+      saveActivityToDatabase(question, answer);
+    } catch (error) {
       console.error('Error generating answer:', error);
     }
   }
