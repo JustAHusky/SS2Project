@@ -87,6 +87,19 @@ const NoActivityMessage = styled.p`
   text-align: center;
 `;
 
+const DeleteButton = styled.button`
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  &:hover {
+    background-color: #ff1a1a;
+  }
+`;
+
 const Dashboard = ({ user }) => {
   const [activities, setActivities] = useState([]);
 
@@ -104,6 +117,17 @@ const Dashboard = ({ user }) => {
 
     fetchActivities();
   }, [user]);
+
+  const handleDeleteActivities = async () => {
+    if (user) {
+      try {
+        await axios.delete(`http://localhost:3080/api/activity/${user.name}`);
+        setActivities([]); // Clear activities from state after deletion
+      } catch (error) {
+        console.error('Error deleting activities:', error);
+      }
+    }
+  };
 
   return (
     <FeaturePageContainer>
@@ -140,6 +164,9 @@ const Dashboard = ({ user }) => {
               ))
             )}
           </ActivityContainer>
+          {activities.length > 0 && (
+            <DeleteButton onClick={handleDeleteActivities}>Delete All Activities</DeleteButton>
+          )}
         </MainContent>
       </div>
       <Footer />

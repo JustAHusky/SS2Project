@@ -58,7 +58,6 @@ const InputOutputContainer = styled.div`
   flex-direction: column;
   gap: 20px;
   margin-bottom: 20px;
-  width: 90%;
 `;
 
 const InputTextArea = styled.textarea`
