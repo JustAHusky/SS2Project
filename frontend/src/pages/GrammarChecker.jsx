@@ -122,13 +122,11 @@ function GrammarChecker({ user }) {
       saveActivityToDatabase(question, generatedAnswer);
     }
     catch (error) {
-      console.error('Error generating answer:', error);
     }
   }
 
   async function saveActivityToDatabase(question, generatedAnswer) {
     if (!user || !user.name) {
-      console.error('User information is not available');
       return;
     }
 
@@ -139,9 +137,7 @@ function GrammarChecker({ user }) {
         question: question,
         answer: generatedAnswer
       });
-      console.log('Activity history saved to the database.');
     } catch (error) {
-      console.error('Error saving activity history to the database:', error);
     }
   }
 

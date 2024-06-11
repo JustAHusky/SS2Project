@@ -24,14 +24,9 @@ function App({ user, updateUser }) {
 
   const handleCallbackResponse = async (response) => {
     if (response) {
-      console.log("Logged in successfully!");
-      console.log("Encoded JWT ID token: " + response.credential);
       const decodedToken = jwtDecode(response.credential);
-      console.log(decodedToken);
 
       const { name, email } = decodedToken;
-      console.log("User name:", name);
-      console.log("User email:", email);
 
       const userObject = { name, email };
       updateUser(userObject);
@@ -51,9 +46,7 @@ function App({ user, updateUser }) {
   const saveUserToDatabase = async (userObject) => {
     try {
       await axios.post('http://localhost:3080/api/user', userObject);
-      console.log('User information saved to the database.');
     } catch (error) {
-      console.error('Error saving user information to the database:', error);
     }
   };
 

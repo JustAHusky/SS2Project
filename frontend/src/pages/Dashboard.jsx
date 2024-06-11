@@ -73,12 +73,23 @@ const ActivityType = styled.div`
   font-weight: bold;
 `;
 
+const ActivityInputLabel = styled.div`
+  margin-top: 10px;
+  font-weight: bold;
+`;
+
 const ActivityInput = styled.div`
   margin-top: 10px;
 `;
 
-const ActivityOutput = styled.div`
+const ActivityOutputLabel = styled.div`
   margin-top: 10px;
+  font-weight: bold;
+`;
+
+const ActivityOutput = styled.div`
+  margin-top: 5px;
+  white-space: pre-wrap; /* Preserves line breaks */
 `;
 
 const NoActivityMessage = styled.p`
@@ -122,11 +133,17 @@ const Dashboard = ({ user }) => {
     if (user) {
       try {
         await axios.delete(`http://localhost:3080/api/activity/${user.name}`);
-        setActivities([]); // Clear activities from state after deletion
+        setActivities([]);
       } catch (error) {
         console.error('Error deleting activities:', error);
       }
     }
+  };
+
+  const renderOutputWithLinks = (output) => {
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    const formattedOutput = output.replace(urlRegex, (url) => `<a href="${url}" target="_blank">${url}</a>`);
+    return formattedOutput.replace(/\n/g, '<br/>');
   };
 
   return (
@@ -158,8 +175,10 @@ const Dashboard = ({ user }) => {
               activities.map((activity, index) => (
                 <ActivityItem key={index}>
                   <ActivityType>Type: {activity.activity_type}</ActivityType>
-                  <ActivityInput>Input: {activity.input_text}</ActivityInput>
-                  <ActivityOutput>Output: {activity.output_text}</ActivityOutput>
+                  <ActivityInputLabel>Input:</ActivityInputLabel>
+                  <ActivityInput>{activity.input_text}</ActivityInput>
+                  <ActivityOutputLabel>Output:</ActivityOutputLabel>
+                  <ActivityOutput dangerouslySetInnerHTML={{ __html: renderOutputWithLinks(activity.output_text) }} />
                 </ActivityItem>
               ))
             )}

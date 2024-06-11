@@ -107,7 +107,6 @@ function Paraphraser({ user }) {
     }
   }, [])
   async function generateAnswer() {
-    console.log("loading...");
     try {
       const response = await axios({
         url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyAECJjA7roZz7xaDpLTgpqMxow0WI4jaGc",
@@ -123,13 +122,11 @@ function Paraphraser({ user }) {
 
       saveActivityToDatabase(question, generatedAnswer);
     } catch (error) {
-      console.error('Error generating answer:', error);
     }
   }
 
   async function saveActivityToDatabase(question, generatedAnswer) {
     if (!user || !user.name) {
-      console.error('User information is not available');
       return;
     }
 
@@ -140,9 +137,7 @@ function Paraphraser({ user }) {
         question: question,
         answer: generatedAnswer
       });
-      console.log('Activity history saved to the database.');
     } catch (error) {
-      console.error('Error saving activity history to the database:', error);
     }
   }
 

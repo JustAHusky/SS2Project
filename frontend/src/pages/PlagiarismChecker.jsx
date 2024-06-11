@@ -70,7 +70,7 @@ const InputTextArea = styled.textarea`
   font-size: 16px;
 `;
 
-const OutputTextArea = styled.textarea`
+const OutputTextArea = styled.div`
   width: 90%;
   height: 250px;
   padding: 10px;
@@ -78,6 +78,8 @@ const OutputTextArea = styled.textarea`
   border-radius: 5px;
   resize: none;
   font-size: 16px;
+  overflow-y: auto;
+  white-space: pre-wrap; /* Preserves line breaks */
 `;
 
 const ProcessButton = styled.button`
@@ -110,16 +112,19 @@ function PlagiarismChecker({ user }) {
     try {
       const response = await axios.post('http://localhost:3080/api/generate-answer', { question });
       const { answer } = response.data;
-      setAnswer(answer);
+      setAnswer(convertToLinks(answer));
       saveActivityToDatabase(question, answer);
     } catch (error) {
-      console.error('Error generating answer:', error);
     }
+  }
+
+  function convertToLinks(text) {
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    return text.replace(urlRegex, (url) => `<a href="${url}" target="_blank">${url}</a>`);
   }
 
   async function saveActivityToDatabase(question, generatedAnswer) {
     if (!user || !user.name) {
-      console.error('User information is not available');
       return;
     }
 
@@ -130,9 +135,7 @@ function PlagiarismChecker({ user }) {
         question: question,
         answer: generatedAnswer
       });
-      console.log('Activity history saved to the database.');
     } catch (error) {
-      console.error('Error saving activity history to the database:', error);
     }
   }
 
@@ -165,7 +168,7 @@ function PlagiarismChecker({ user }) {
           />
           {isUser && <ProcessButton onClick={generateAnswer}>Process</ProcessButton>}
           <div>{isUser ? '' : <AlertDialogSlide onClick={generateAnswer}></AlertDialogSlide>}</div>
-          <OutputTextArea value={answer} readOnly />
+          <OutputTextArea dangerouslySetInnerHTML={{ __html: answer }} />
         </InputOutputContainer>
       </MainContent>
     </FeaturePageContainer>
