@@ -111,14 +111,14 @@ function Paraphraser({ user }) {
       setIsUser(false);
     }
   }, [])
-  async function generateAnswer() {
+ async function generateAnswer() {
     try {
       const response = await axios({
         url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyAECJjA7roZz7xaDpLTgpqMxow0WI4jaGc",
         method: "POST",
         data: {
           contents: [
-            { parts: [{ text: "Rephrase the input text and provide several paraphrased versions of the text, allowing the user to choose the one that best fits their needs: " + question }] }
+            { parts: [{ text: `Rephrase the input text and provide several paraphrased versions of the text, allowing the user to choose the one that best fits their needs: ${question}` }] }
           ],
         },
       });
