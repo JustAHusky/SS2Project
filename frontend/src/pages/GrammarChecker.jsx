@@ -92,11 +92,17 @@ const ProcessButton = styled.button`
   text-align: center;
 `;
 
+const WordCount = styled.div`
+  font-size: 16px;
+  color: #666;
+`;
+
 function GrammarChecker({ user }) {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [isUser, setIsUser] = useState(false);
   const accessToken = localStorage.getItem('user');
+
   useEffect(() => {
     if (accessToken) {
       setIsUser(true);
@@ -104,7 +110,8 @@ function GrammarChecker({ user }) {
     else {
       setIsUser(false);
     }
-  }, [])
+  }, []);
+
   async function generateAnswer() {
     try {
       const response = await axios({
@@ -141,6 +148,10 @@ function GrammarChecker({ user }) {
     }
   }
 
+  const countWords = (text) => {
+    return text.trim().split(/\s+/).filter(word => word.length > 0).length;
+  };
+
   return (
     <FeaturePageContainer>
       <Sidebar>
@@ -168,6 +179,7 @@ function GrammarChecker({ user }) {
             onChange={(e) => setQuestion(e.target.value)}
             placeholder="Enter text to check grammar..."
           />
+          <WordCount>Word Count: {countWords(question)}</WordCount>
           {isUser && <ProcessButton onClick={generateAnswer}>Process</ProcessButton>}
           <div>{isUser ? '' : <AlertDialogSlide onClick={generateAnswer}></AlertDialogSlide>}</div>
           <OutputTextArea value={answer} readOnly />

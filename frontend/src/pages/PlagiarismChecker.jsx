@@ -94,6 +94,11 @@ const ProcessButton = styled.button`
   text-align: center;
 `;
 
+const WordCount = styled.div`
+  font-size: 16px;
+  color: #666;
+`;
+
 function PlagiarismChecker({ user }) {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
@@ -139,6 +144,10 @@ function PlagiarismChecker({ user }) {
     }
   }
 
+  const countWords = (text) => {
+    return text.trim().split(/\s+/).filter(word => word.length > 0).length;
+  };
+
   return (
     <FeaturePageContainer>
       <Sidebar>
@@ -166,6 +175,7 @@ function PlagiarismChecker({ user }) {
             onChange={(e) => setQuestion(e.target.value)}
             placeholder="Enter text to check for plagiarism..."
           />
+          <WordCount>Word Count: {countWords(question)}</WordCount>
           {isUser && <ProcessButton onClick={generateAnswer}>Process</ProcessButton>}
           <div>{isUser ? '' : <AlertDialogSlide onClick={generateAnswer}></AlertDialogSlide>}</div>
           <OutputTextArea dangerouslySetInnerHTML={{ __html: answer }} />

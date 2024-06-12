@@ -93,6 +93,11 @@ const ProcessButton = styled.button`
   text-align: center;
 `;
 
+const WordCount = styled.div`
+  font-size: 16px;
+  color: #666;
+`;
+
 function Paraphraser({ user }) {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
@@ -141,6 +146,10 @@ function Paraphraser({ user }) {
     }
   }
 
+  const countWords = (text) => {
+    return text.trim().split(/\s+/).filter(word => word.length > 0).length;
+  };
+
   return (
     <FeaturePageContainer>
       <Sidebar>
@@ -168,6 +177,8 @@ function Paraphraser({ user }) {
             onChange={(e) => setQuestion(e.target.value)}
             placeholder="Enter your text to paraphrase..."
           />
+          
+          <WordCount>Word Count: {countWords(question)}</WordCount>
          {isUser && <ProcessButton onClick={generateAnswer}>Process</ProcessButton>}
           <div>{isUser ? '' : <AlertDialogSlide></AlertDialogSlide>}</div>
           <OutputTextArea value={answer} readOnly />
