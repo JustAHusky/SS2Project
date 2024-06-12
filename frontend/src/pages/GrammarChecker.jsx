@@ -119,7 +119,7 @@ function GrammarChecker({ user }) {
         method: "POST",
         data: {
           contents: [
-            { parts: [{ text: "Check the input text for grammar and spelling errors and then give the corrected version with some suggestion down below, only give the answer, no need explaination: " + question }] }
+            { parts: [{ text: `Check the input text for grammar and spelling errors and then give the corrected version with some suggestion down below, only give the answer, no need explaination: ${question}` }] }
           ],
         },
       });
