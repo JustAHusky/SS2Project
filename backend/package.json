@@ -3,12 +3,16 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "prestart": "mkdir -p /home/sbx_user1051/.npm/_logs && npx kill-port 3080 || true",
+    "start": "node index.js",
+    "setup-db": "node setupDatabase.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "husky",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@vercel/postgres-kysely": "^0.8.0",
     "axios": "^1.7.2",
     "cheerio": "^1.0.0-rc.12",
     "cors": "^2.8.5",
@@ -16,8 +20,10 @@
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
     "kill-port": "^2.0.1",
+    "kysely": "^0.27.3",
     "mysql": "^2.18.1",
     "natural": "^7.0.6",
+    "pg": "^8.12.0",
     "together-ai": "^0.6.0-alpha.3"
   }
 }
