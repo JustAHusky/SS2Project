@@ -5,13 +5,14 @@ const connection = require("./database");
 const cors = require("cors");
 const app = express();
 const Together = require('together-ai');
+require('dotenv').config();
 
 const PORT = process.env.PORT || 3080;
 
 app.use(cors());
 app.use(bodyParser.json());
 const together = new Together({
-  apiKey: '9321db6d1c5fe7b433683935ca305f93f0fa1147e6d44e56da3381d6b3549bfb',
+  apiKey: process.env.TOGETHER_API_KEY,
 });
 
 app.post("/api/generate-answer", async function (req, res) {
